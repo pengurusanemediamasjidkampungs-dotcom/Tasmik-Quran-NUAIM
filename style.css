@@ -1,5 +1,6 @@
 /* TASMIK SMART SYSTEM 2050 - ULTIMATE STYLE
    Vibe: Solid, Futuristic, Glassmorphism
+   Anti-Search & Anti-Hold Update
 */
 
 :root {
@@ -13,19 +14,25 @@
     --text-main: #f8fafc;
     --text-dim: #94a3b8;
     --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-    --glow: 0 0 20px rgba(0, 210, 255, 0.6); /* Cahaya lebih kuat untuk logo */
+    --glow: 0 0 20px rgba(0, 210, 255, 0.6);
 }
 
-/* RESET & SMOOTH SCROLLING */
+/* RESET, SMOOTH SCROLLING & GLOBAL LOCK */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    
+    /* Elakkan pemilihan teks global & tap highlight */
     -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
-body {
+html, body {
     background-color: var(--bg-dark);
     background-image: 
         radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.05) 0%, transparent 20%),
@@ -36,6 +43,10 @@ body {
     padding: env(safe-area-inset-top) 20px 40px 20px;
     display: flex;
     justify-content: center;
+    
+    /* Elakkan bounce & zoom */
+    touch-action: pan-y; 
+    overscroll-behavior-y: contain;
 }
 
 .container {
@@ -43,36 +54,34 @@ body {
     max-width: 500px;
 }
 
-/* HEADER SECTION & LOGO BULAT */
+/* KECUALIKAN INPUT DARIPADA LOCK (Sebab perlu taip/pilih nombor) */
+input, textarea, select {
+    -webkit-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+    font-size: 16px !important; /* Elakkan auto-zoom iPhone */
+}
+
+/* HEADER SECTION */
 header {
     text-align: center;
     padding: 40px 0 20px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* Jarak antara logo dan teks */
+    gap: 15px;
 }
 
 .logo-masjid {
-    width: 100px;           /* Saiz ikon yang seimbang */
+    width: 100px;
     height: 100px;
-    object-fit: cover;      /* Gambar tidak penyek */
-    border-radius: 50%;     /* Bulat Sempurna */
+    object-fit: cover;
+    border-radius: 50%;
     border: 2px solid var(--primary); 
-    background: #000;       /* Latar belakang untuk logo telus */
-    
-    /* Kesan Glowing Neon */
-    box-shadow: 
-        0 0 15px var(--primary), 
-        0 0 30px rgba(0, 210, 255, 0.3),
-        inset 0 0 15px rgba(0, 210, 255, 0.2);
-    
+    background: #000;
+    box-shadow: 0 0 15px var(--primary), 0 0 30px rgba(0, 210, 255, 0.3);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.logo-masjid:hover {
-    transform: scale(1.1) rotate(5deg); /* Sedikit putaran bila disentuh */
-    box-shadow: 0 0 40px var(--primary);
+    -webkit-user-drag: none;
 }
 
 header h1 {
@@ -87,13 +96,6 @@ header h1 span {
     text-shadow: var(--glow);
 }
 
-header p {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    margin-top: 8px;
-    letter-spacing: 1px;
-}
-
 /* CARDS & GLASS EFFECT */
 .glass-card {
     background: var(--glass);
@@ -104,21 +106,20 @@ header p {
     padding: 24px;
     margin-bottom: 20px;
     box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
 }
 
 /* FORM ELEMENTS */
 label {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     color: var(--primary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-select, input {
+select, input[type="text"], input[type="number"] {
     width: 100%;
     padding: 14px;
     background: rgba(0, 0, 0, 0.3);
@@ -126,126 +127,259 @@ select, input {
     border-radius: 14px;
     color: white;
     font-size: 1rem;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     outline: none;
     transition: all 0.3s ease;
 }
 
-select:focus, input:focus {
-    border-color: var(--primary);
-    background: rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.1);
+/* --- COMPACT PICKER --- */
+.compact-picker-row {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-bottom: 20px;
 }
 
-/* TASMIK GRID & SURAH CARDS */
-.tasmik-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
+.picker-box {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.surah-card {
-    border-left: 5px solid var(--primary);
-    position: relative;
-    overflow: hidden;
-}
-
-.surah-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(90deg, rgba(0, 210, 255, 0.05), transparent);
-    pointer-events: none;
-}
-
-.surah-card h3 {
-    font-size: 1.2rem;
-    color: #fff;
-    margin-bottom: 4px;
-}
-
-.surah-card p {
-    font-size: 0.85rem;
+.picker-label {
+    font-size: 0.6rem;
     color: var(--text-dim);
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
-/* SKOR INPUT AREA */
-.skor-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 18px 0;
-    padding-top: 15px;
-    border-top: 1px solid var(--glass-border);
-}
-
-.skor-item label {
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    text-align: center;
-}
-
-.skor-item input {
-    margin-bottom: 0;
-    text-align: center;
-    font-size: 1.4rem;
-    color: var(--accent);
+.picker-box select, .picker-box input {
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    color: var(--primary) !important;
+    font-size: 1.2rem !important;
     font-weight: 800;
-    background: rgba(74, 222, 128, 0.05);
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
 }
+
+/* Buang spinner */
+.picker-box input::-webkit-outer-spin-button,
+.picker-box input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* --- PEMARKAHAN 1-5 --- */
+.rating-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 10px 0 20px 0;
+}
+
+.rating-container {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 18px;
+    border: 1px solid var(--glass-border);
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.button-group input[type="radio"] {
+    display: none;
+}
+
+.button-group label {
+    flex: 1;
+    padding: 12px 0;
+    text-align: center;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 800;
+    color: var(--text-dim);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.button-group input[type="radio"]:checked + label {
+    background: var(--primary);
+    color: var(--bg-dark);
+    border-color: var(--primary);
+    box-shadow: var(--glow);
+    transform: translateY(-2px);
+}
+
+.button-group input[type="radio"][value="5"]:checked + label {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.5);
+}
+
+/* --- GRID SURAH --- */
+.number-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-height: 180px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid var(--glass-border);
+    margin-bottom: 10px;
+    touch-action: pan-y;
+}
+
+.num-btn {
+    padding: 12px 0;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+    /* Anti-drag */
+    -webkit-user-drag: none;
+}
+
+.num-btn.active {
+    background: var(--primary);
+    color: #000;
+    box-shadow: var(--glow);
+    border-color: var(--primary);
+}
+
+/* Custom Scrollbar */
+.number-grid::-webkit-scrollbar { width: 4px; }
+.number-grid::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
 /* BUTTONS */
-.btn-check {
+.btn-check, .btn-hantar {
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
     border: none;
-    padding: 16px;
-    border-radius: 16px;
+    padding: 18px;
+    border-radius: 18px;
     font-weight: 800;
     width: 100%;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    -webkit-user-drag: none;
 }
 
-.btn-check:hover {
-    transform: scale(1.02);
-    filter: brightness(1.1);
-    box-shadow: var(--glow);
-}
+.btn-check:active { transform: scale(0.98); }
 
-.btn-check:active {
-    transform: scale(0.98);
-}
-
-/* STATUS BADGES */
-#offline-badge {
-    animation: pulse 2s infinite;
-}
+/* STATUS & BADGES */
+#offline-badge { animation: pulse 2s infinite; }
 
 @keyframes pulse {
-    0% { opacity: 0.7; }
+    0% { opacity: 0.6; }
     50% { opacity: 1; }
-    100% { opacity: 0.7; }
+    100% { opacity: 0.6; }
 }
 
-.status-sync {
-    margin-top: 30px;
-    opacity: 0.6;
-    font-weight: 500;
+#sync-status {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-top: 10px;
+    text-align: center;
 }
 
-/* UTILITIES */
-.tahap-badge {
-    background: rgba(0, 210, 255, 0.1);
-    color: var(--primary);
-    border: 1px solid var(--primary);
-    padding: 4px 12px;
-    border-radius: 10px;
-    font-size: 0.65rem;
-    font-weight: 900;
-    margin-bottom: 8px;
-    display: inline-block;
+/* =========================================
+   FLOATING BUTTONS SECTION (NEW)
+   ========================================= */
+
+/* FLOATING BUTTONS CONTAINER */
+.floating-controls {
+    position: fixed;
+    bottom: 25px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 9999;
+    pointer-events: none; /* Supaya tidak ganggu klik elemen belakang */
+}
+
+.floating-btn {
+    pointer-events: auto; /* Aktifkan semula klik untuk butang sahaja */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+/* BUTANG RAKAM (Kiri - Bulat) */
+#record-floating-btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+#record-floating-btn.recording {
+    background: rgba(239, 68, 68, 0.8); /* Merah jika merakam */
+    animation: pulse-red 1.5s infinite;
+    transform: scale(1.1);
+}
+
+/* BUTANG HANTAR (Kanan - Empat Segi Tepat) */
+#submit-floating-btn {
+    height: 55px;
+    padding: 0 25px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+#submit-floating-btn:active, #record-floating-btn:active {
+    transform: scale(0.9);
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
 }
