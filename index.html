@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <title>TASMIK 2050 | SMART SYSTEM</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <img src="icon_512.png" alt="Logo" class="logo-masjid">
+        <h1>TASMIK<span>2050</span></h1>
+        <p id="offline-badge" style="color: var(--accent); font-size: 0.6rem; font-weight: 800; text-transform: uppercase;">System Ready • Auto-Sync</p>
+    </header>
+
+    <div class="glass-card">
+        <label for="nama-select">Nama Pelajar</label>
+        <select id="nama-select">
+        </select>
+
+        <label for="tahap-select">Pilih Tahap Silibus</label>
+        <select id="tahap-select" onchange="renderSilibus()">
+            <option value="1">Tahap 1: Surah Pendek</option>
+            <option value="2">Tahap 2: Pertengahan 1</option>
+            <option value="3">Tahap 3: Pertengahan 2</option>
+            <option value="4">Tahap 4: Lanjutan 1</option>
+            <option value="5">Tahap 5: Lanjutan 2</option>
+            <option value="6">Tahap 6: Pilihan/Sajadah</option>
+            <option value="7">Tahap 7: Muraja'ah/Lain-lain</option>
+        </select>
+
+        <label>Pilih Surah</label>
+        <div id="silibus-display" class="number-grid">
+        </div>
+
+        <label>Maklumat Bacaan (Auto-Detect)</label>
+        <div class="compact-picker-row">
+            <div class="picker-box">
+                <span class="picker-label">M/S</span>
+                <input type="number" id="muka-surat-input" value="1" min="1" max="604">
+            </div>
+
+            <div class="picker-box">
+                <span class="picker-label">AYAT MULA</span>
+                <select id="ayat-mula-select">
+                    <option value="1">1</option>
+                </select>
+            </div>
+
+            <div class="picker-box">
+                <span class="picker-label">AYAT AKHIR</span>
+                <select id="ayat-akhir-select">
+                    <option value="1">1</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="rating-section" style="margin-top: 20px;">
+            <div class="rating-container">
+                <label>⭐ Markah Tajwid</label>
+                <div class="button-group">
+                    <input type="radio" id="t1" name="tajwid" value="1"><label for="t1">1</label>
+                    <input type="radio" id="t2" name="tajwid" value="2"><label for="t2">2</label>
+                    <input type="radio" id="t3" name="tajwid" value="3"><label for="t3">3</label>
+                    <input type="radio" id="t4" name="tajwid" value="4"><label for="t4">4</label>
+                    <input type="radio" id="t5" name="tajwid" value="5" checked><label for="t5">5</label>
+                </div>
+            </div>
+
+            <div class="rating-container">
+                <label>📖 Markah Fasohah</label>
+                <div class="button-group">
+                    <input type="radio" id="f1" name="fasohah" value="1"><label for="f1">1</label>
+                    <input type="radio" id="f2" name="fasohah" value="2"><label for="f2">2</label>
+                    <input type="radio" id="f3" name="fasohah" value="3"><label for="f3">3</label>
+                    <input type="radio" id="f4" name="fasohah" value="4"><label for="f4">4</label>
+                    <input type="radio" id="f5" name="fasohah" value="5" checked><label for="f5">5</label>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-check" onclick="hantarRekod()">Hantar Data Tasmik</button>
+        
+        <center>
+            <p class="status-sync" id="sync-status">Semua data telah disinkronkan.</p>
+        </center>
+    </div>
+</div>
+
+<div class="floating-controls">
+    <div id="record-floating-btn" class="floating-btn" title="Rakam Suara">
+        <span id="mic-icon">🎤</span>
+    </div>
+    <div id="submit-floating-btn" class="floating-btn">
+        <span>Hantar Rekod</span>
+        <span style="font-size: 1.2rem;">🚀</span>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('PWA: Service Worker Berjaya Didaftar!', reg))
+        .catch(err => console.log('PWA: Service Worker Gagal!', err));
+    });
+  }
+</script>
+
+</body>
+</html>
