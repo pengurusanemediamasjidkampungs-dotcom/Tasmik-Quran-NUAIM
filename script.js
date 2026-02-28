@@ -2,16 +2,18 @@
 // 1. DATA PESERTA & KONFIGURASI
 // ==========================================
 const dataPeserta = [
+    { nama: "UMAIR BIN MOHAMMAD NUAIM", umur: 7 },
+    { nama: "AHMAD AMSYAR BIN AHMAD AHNAF", umur: 9 },
+    { nama: "DANIEL IZZ ZAYAN BIN ZARUL FITRY", umur: 9 },
+    { nama: "DANIAL AR RAYYAN BIN AHMAD RIDUAN", umur: 11 },
+    { nama: "AEL AMEEN BIN SHAHRIN", umur: 12 },
+    { nama: "DANIEL FIKRY ARYAN BIN ZARUL FITRY", umur: 12 },
+    { nama: "MUHAMMAD ZAKWAN BIN MUHAMMAD FADHIL", umur: 13 },
+    { nama: "MUHAMMAD ADAM SHAH BIN SYEDPUDIN", umur: 14 },
     { nama: "MUHAMMAD AZAM SHAH BIN ABDULLAH", umur: 16 },
     { nama: "DANISH ANIQ BIN MD KHAIRUL AZHAR", umur: 16 },
     { nama: "MUHAMMAD HADIF FITRI BIN NORIZAM", umur: 16 },
-    { nama: "MUHAMMAD ADAM SHAH BIN SYEDPUDIN", umur: 14 },
-    { nama: "MUHAMMAD ZAKWAN BIN MUHAMMAD FADHIL", umur: 13 },
-    { nama: "AEL AMEEN BIN SHAHRIN", umur: 12 },
-    { nama: "DANIEL FIKRY ARYAN BIN ZARUL FITRY", umur: 12 },
-    { nama: "DANIAL AR RAYYAN BIN AHMAD RIDUAN", umur: 11 },
-    { nama: "AHMAD AMSYAR BIN AHMAD AHNAF", umur: 9 },
-    { nama: "DANIEL IZZ ZAYAN BIN ZARUL FITRY", umur: 9 }
+    { nama: "DANIAL AZ ZARIF BIN AHMAD RIDUAN", umur: 18 }
 ];
 
 const GAS_URL = "https://script.google.com/macros/s/AKfycbw5tyY3rrQFkGisxuE-pAc-Ii2Z4G2GYyUyvS6NeTSlrpKhlQ4aFEaWC-5ujnXCa9u1Ag/exec";
